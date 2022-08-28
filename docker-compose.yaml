@@ -1,0 +1,29 @@
+version: "3.1"
+services:
+  elastic_search:
+    container_name: elastic_search
+    image: elasticsearch:7.17.6
+    ports:
+      - 9200:9200
+    volumes:
+      - elasticsearch_tutorial:/usr/share/elasticsearch/data
+    networks:
+      - es_tutorial_net
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+  kibana:
+    image: kibana:7.17.6
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elastic_search:9200
+    networks:
+      - es_tutorial_net
+    depends_on:
+      - elastic_search
+
+volumes:
+  elasticsearch_tutorial:
+networks:
+  es_tutorial_net:
