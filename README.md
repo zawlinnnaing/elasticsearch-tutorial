@@ -4,7 +4,7 @@ My playground repository for learning elasticsearch.
 
 ## Setup
 
-In order to setup for elasticsearch playground, you need none other that [Docker](https://www.docker.com/).
+In order to setup for elasticsearch playground, you need none other than [Docker](https://www.docker.com/).
 
 ```bash
 docker compose up
