@@ -1,6 +1,6 @@
 version: "3.1"
 services:
-  elastic_search:
+  elasticsearch:
     container_name: elastic_search
     image: elasticsearch:7.17.6
     ports:
@@ -12,6 +12,18 @@ services:
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
+  logstash:
+    container_name: es-tutorial-logstash
+    image: logstash:7.17.5
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+      # bind mount in the container must be the same with file input in
+      # './logstash/pipeline/logstash.conf'
+      - ./logstash/data:/usr/share/data
+    networks:
+      - es_tutorial_net
+    depends_on:
+      - elasticsearch
   kibana:
     image: kibana:7.17.6
     ports:
@@ -21,7 +33,7 @@ services:
     networks:
       - es_tutorial_net
     depends_on:
-      - elastic_search
+      - elasticsearch
 
 volumes:
   elasticsearch_tutorial:
